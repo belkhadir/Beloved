@@ -28,6 +28,11 @@
 		3C58199C1C4BEF3F008478B1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C58199B1C4BEF3F008478B1 /* libz.tbd */; };
 		3C58199E1C4BEF4C008478B1 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C58199D1C4BEF4C008478B1 /* libsqlite3.tbd */; };
 		3C5819A11C4BF066008478B1 /* SingUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819A01C4BF066008478B1 /* SingUp.swift */; };
+		3C5819A31C4D556A008478B1 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819A21C4D556A008478B1 /* Message.swift */; };
+		3C5819A51C4D5685008478B1 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819A41C4D5685008478B1 /* Friend.swift */; };
+		3C5819A71C514152008478B1 /* FriendSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819A61C514152008478B1 /* FriendSearchViewController.swift */; };
+		3C5819A91C5141E5008478B1 /* FriendSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819A81C5141E5008478B1 /* FriendSearchTableViewCell.swift */; };
+		3C5819AC1C5181D3008478B1 /* ListOfMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819AB1C5181D3008478B1 /* ListOfMessageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +71,11 @@
 		3C58199B1C4BEF3F008478B1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		3C58199D1C4BEF4C008478B1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		3C5819A01C4BF066008478B1 /* SingUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingUp.swift; sourceTree = "<group>"; };
+		3C5819A21C4D556A008478B1 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		3C5819A41C4D5685008478B1 /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		3C5819A61C514152008478B1 /* FriendSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchViewController.swift; sourceTree = "<group>"; };
+		3C5819A81C5141E5008478B1 /* FriendSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchTableViewCell.swift; sourceTree = "<group>"; };
+		3C5819AB1C5181D3008478B1 /* ListOfMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListOfMessageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +135,10 @@
 				3C5819851C4BC120008478B1 /* LoginProvider.swift */,
 				3C5819A01C4BF066008478B1 /* SingUp.swift */,
 				3C5819661C4BC0EA008478B1 /* Main.storyboard */,
+				3C5819AB1C5181D3008478B1 /* ListOfMessageViewController.swift */,
+				3C5819A61C514152008478B1 /* FriendSearchViewController.swift */,
+				3C5819A81C5141E5008478B1 /* FriendSearchTableViewCell.swift */,
+				3C5819AA1C5160BC008478B1 /* BelovedBD */,
 				3C58196C1C4BC0EA008478B1 /* Assets.xcassets */,
 				3C58196E1C4BC0EA008478B1 /* LaunchScreen.storyboard */,
 				3C5819711C4BC0EA008478B1 /* Info.plist */,
@@ -159,6 +173,15 @@
 				3C5819891C4BEE5C008478B1 /* Bolts.framework */,
 			);
 			name = Framework;
+			sourceTree = "<group>";
+		};
+		3C5819AA1C5160BC008478B1 /* BelovedBD */ = {
+			isa = PBXGroup;
+			children = (
+				3C5819A21C4D556A008478B1 /* Message.swift */,
+				3C5819A41C4D5685008478B1 /* Friend.swift */,
+			);
+			name = BelovedBD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,9 +287,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C5819A91C5141E5008478B1 /* FriendSearchTableViewCell.swift in Sources */,
+				3C5819A71C514152008478B1 /* FriendSearchViewController.swift in Sources */,
 				3C5819651C4BC0EA008478B1 /* ViewController.swift in Sources */,
+				3C5819AC1C5181D3008478B1 /* ListOfMessageViewController.swift in Sources */,
+				3C5819A51C4D5685008478B1 /* Friend.swift in Sources */,
 				3C5819A11C4BF066008478B1 /* SingUp.swift in Sources */,
 				3C5819631C4BC0EA008478B1 /* AppDelegate.swift in Sources */,
+				3C5819A31C4D556A008478B1 /* Message.swift in Sources */,
 				3C5819861C4BC120008478B1 /* LoginProvider.swift in Sources */,
 				3C58196B1C4BC0EA008478B1 /* Beloved.xcdatamodeld in Sources */,
 			);

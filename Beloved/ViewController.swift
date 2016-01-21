@@ -15,7 +15,7 @@ protocol LoginProviderDelegate {
 }
 
 
-class ViewController: UIViewController, LoginProviderDelegate, SingUpDelegate {
+class ViewController: UIViewController{
 
     
     @IBOutlet weak var emailTextField: UITextField!
@@ -29,10 +29,9 @@ class ViewController: UIViewController, LoginProviderDelegate, SingUpDelegate {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+ 
+    
+    
     
    
     @IBAction func login(sender: UIButton) {
@@ -53,36 +52,47 @@ class ViewController: UIViewController, LoginProviderDelegate, SingUpDelegate {
         user.password = "123456789"
         user.username = "A"
 
-        let userRegister = SingUp(user: user)
-        userRegister.singUpUsingParse(self)
+        let userRegister = SingUp.Email(user)
+        userRegister.singUp(self)
         
     }
     
 
+
+ 
+
+}
+
+
+
+extension ViewController: LoginProviderDelegate {
+    
     func loginProvider(navigation: UIViewController?, didFaild error: NSString) {
         
         print(error)
-    
+        
     }
     
     func loginProvider(navigation: UIViewController?, didSuccessed user: PFUser) {
         print(user)
     }
 
-    func singUp(navigation: UIViewController?, didFaild error: NSString) {
-        
-        print(error)
     
+}
+
+
+extension ViewController:  SingUpDelegate {
+    func singUp(navigation: UIViewController?, didFaild error: NSString) {
+        //show an alert
+        print(error)
+        
     }
     
     func singUp(navigation: UIViewController?, didSingUp user: PFUser) {
-        
+        //Push to another screen
         print(user)
     }
-
-
-
-
+    
 }
 
 

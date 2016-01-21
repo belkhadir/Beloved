@@ -33,12 +33,12 @@ enum LoginProvider {
         
     }
     
-    func loginWithFacebook(delegate: LoginProviderDelegate){
+   private func loginWithFacebook(delegate: LoginProviderDelegate){
         
     
     }
     
-    func login(delegate: LoginProviderDelegate, loginWithUsername user: PFUser){
+   private func login(delegate: LoginProviderDelegate, loginWithUsername user: PFUser){
         
         PFUser.logInWithUsernameInBackground(user.username!, password: user.password!){
             (user: PFUser?, error: NSError?) -> Void in

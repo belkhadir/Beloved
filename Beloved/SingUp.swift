@@ -17,26 +17,31 @@ protocol SingUpDelegate{
 
 }
 
-
-
-class SingUp {
+enum SingUp {
     
+    case Email(PFUser)
+    case Facebook
+    case None
     
-    
-    var user = PFUser()
-    
-
-    
-    init(user: PFUser){
-        self.user.username = user.username
-        self.user.email = user.email
-        self.user.password = user.password
+    func singUp(delegate: SingUpDelegate){
+        
+        switch self {
+        case let .Email(user)  :
+            singUpUsingParse(delegate, signUpWithEmail: user)
+            
+            
+        case .Facebook:
+            break
+            
+        case .None:
+            break
+            
+        }
+        
     }
     
-    
-    
-    func singUpUsingParse(delegate: SingUpDelegate){
-    
+    private func singUpUsingParse(delegate: SingUpDelegate, signUpWithEmail user: PFUser){
+        
         
         user.signUpInBackgroundWithBlock {
             (succeeded: Bool, error: NSError?) -> Void in
@@ -48,7 +53,7 @@ class SingUp {
             }
             
             if succeeded {
-                delegate.singUp(nil, didSingUp: self.user)
+                delegate.singUp(nil, didSingUp: user)
             }else{
                 delegate.singUp(nil, didFaild: "")
             }
@@ -56,12 +61,9 @@ class SingUp {
     }
     
     
-    func singUpUsingFacebook() {
-        
-    }
-    
-    
     
     
     
 }
+
+
