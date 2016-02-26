@@ -7,13 +7,18 @@
 //
 
 import Foundation
-import Parse
+import UIKit
+import Firebase
 
+protocol LoginProviderDelegate {
+    func loginProvider(navigation: UIViewController?, didSuccessed user: User)
+    func loginProvider(navigation: UIViewController?, didFaild error: NSString)
+}
 
 
 enum LoginProvider {
 
-    case Email(PFUser)
+    case Email(User)
     case Facebook
     case None
 
@@ -21,7 +26,7 @@ enum LoginProvider {
         
         switch self {
         case let .Email(user)  :
-            login(delegate, loginWithUsername: user)
+            login(delegate, login: user)
         
         case .Facebook:
             break
@@ -37,27 +42,28 @@ enum LoginProvider {
         
     
     }
-    
-   private func login(delegate: LoginProviderDelegate, loginWithUsername user: PFUser){
-        
-        PFUser.logInWithUsernameInBackground(user.username!, password: user.password!){
-            (user: PFUser?, error: NSError?) -> Void in
-            
-            guard error == nil else{
-                delegate.loginProvider(nil, didFaild: (error!.userInfo["error"] as? NSString)!)
+
+   private func login(delegate: LoginProviderDelegate, login user: User){
+            let ref = Firebase(url: "https://beloved.firebaseio.com")
+    ref.authUser(user.email, password: user.password, withCompletionBlock: {
+            (error, auth) in
+            guard error == nil else {
+
+                delegate.loginProvider(nil, didFaild: error.description as NSString)
                 return
             }
-            
-            if user != nil {
-                delegate.loginProvider(nil, didSuccessed: user!)
-            }else{
-                delegate.loginProvider(nil, didFaild: "Error Occur please contact the admin")
-            }
-            
-        }
+            NSUserDefaults.standardUserDefaults().setValue(auth.uid, forKey: "uid")
+            delegate.loginProvider(nil, didSuccessed: user)
         
         
+        
+        
+    })
+    
     }
+        
+        
+    
     
 }
 

@@ -7,13 +7,31 @@
 //
 
 import Foundation
-import Parse
+
+enum SenderMessage {
+    
+    case outGoing
+    case inComing
+    
+}
 
 class Message {
     
+    //adding CoreData later
+    
+    let messageText: String?
+    let date: NSDate
+    
+    let senderMessage: SenderMessage
+    
+    init(messageText: String?, date: NSDate?, senderMessage: SenderMessage = .outGoing ){
+        
+        self.messageText = messageText
+        self.date = date!
+        self.senderMessage = senderMessage
+    }
     
     
-    
-    
+    //TODO: make The Message support image
     
 }

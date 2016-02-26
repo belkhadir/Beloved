@@ -7,12 +7,12 @@
 //
 
 import UIKit
-import Parse
+
 
 protocol FriendSearchTableViewCellDelegate : class {
     
-    func cell(cell: FriendSearchTableViewCell, didSelectFriendUser user: PFUser)
-    func cell(cell: FriendSearchTableViewCell, didSelectUnFriendUser user: PFUser)
+    func cell(cell: FriendSearchTableViewCell, didSelectFriendUser user: User)
+    func cell(cell: FriendSearchTableViewCell, didSelectUnFriendUser user: User)
     
 }
 
@@ -26,9 +26,9 @@ class FriendSearchTableViewCell: UITableViewCell {
     
     weak var delegate: FriendSearchTableViewCellDelegate?
     
-    var user: PFUser? {
+    var user: User? {
         didSet {
-            username.text = "\(user?.username)"
+            username.text = "\(user!.email)"
         }
     }
     

@@ -7,13 +7,9 @@
 //
 
 import Foundation
-import Parse
+
 
 class Friend {
-    
-    var currentUser: PFUser!
-    var friends: [PFUser]!
-    
     
     
     

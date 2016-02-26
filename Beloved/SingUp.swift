@@ -6,20 +6,22 @@
 //  Copyright © 2016 Anas Belkhadir. All rights reserved.
 //
 
-import Foundation
+
 import UIKit
-import Parse
+import Firebase
+
+
 
 protocol SingUpDelegate{
     
-    func singUp(navigation: UIViewController?, didSingUp user: PFUser)
+    func singUp(navigation: UIViewController?, didSingUp user: User)
     func singUp(navigation: UIViewController?, didFaild error: NSString)
 
 }
 
 enum SingUp {
     
-    case Email(PFUser)
+    case Email(User)
     case Facebook
     case None
     
@@ -27,7 +29,7 @@ enum SingUp {
         
         switch self {
         case let .Email(user)  :
-            singUpUsingParse(delegate, signUpWithEmail: user)
+            singUpWithEmail(delegate, signUpWithEmail: user)
             
             
         case .Facebook:
@@ -40,25 +42,52 @@ enum SingUp {
         
     }
     
-    private func singUpUsingParse(delegate: SingUpDelegate, signUpWithEmail user: PFUser){
+    private func singUpWithEmail(delegate: SingUpDelegate, signUpWithEmail user: User) {
         
-        
-        user.signUpInBackgroundWithBlock {
-            (succeeded: Bool, error: NSError?) -> Void in
-            
-            guard error == nil else{
-                let  errorString = error!.userInfo["error"] as? NSString
-                delegate.singUp(nil, didFaild: errorString!)
-                return
+        FirebaseHelper.BASEREF.createUser(user.email, password: user.password, withCompletionBlock: {
+            (error: NSError!) in
+            if error != nil  {
+                delegate.singUp(nil, didFaild: String(error))
+            }else {
+                FirebaseHelper.BASEREF.authUser(user.email, password: user.password, withCompletionBlock: {
+                    (error, authData) in
+                    if error != nil {
+                        delegate.singUp(nil, didFaild: error.description as String)
+                    }else {
+                        
+                        FirebaseHelper.sharedInstance().searchByUserName(user.userName!,didExist:   {
+                            exist in
+                            if exist {
+                                delegate.singUp(nil, didFaild: "The specified username address is already in use")
+                            }else{
+                                let newUser = [
+                                    FirebaseHelper.JSONKEY.FIRST_NAME : user.firstName!,
+                                    FirebaseHelper.JSONKEY.LAST_NAME : user.lastName!,
+                                    FirebaseHelper.JSONKEY.USERNAME: user.userName!,
+                                    FirebaseHelper.JSONKEY.IMAGE: ""
+                                ]
+                                FirebaseHelper.sharedInstance().creatNewAccount(authData.uid, user: newUser, completionHandler: {
+                                    (error, succeed) in
+                                    if succeed {
+                                        NSUserDefaults.standardUserDefaults().setValue(authData.uid, forKey: FirebaseHelper.JSONKEY.UID)
+                                        delegate.singUp(nil, didSingUp: user)
+                                        
+                                    }else {
+                                        delegate.singUp(nil, didFaild: error!.description as String)
+                                    }
+                                })
+                            }
+                        })
+                        
+
+                    }
+                })
             }
-            
-            if succeeded {
-                delegate.singUp(nil, didSingUp: user)
-            }else{
-                delegate.singUp(nil, didFaild: "")
-            }
-        }
+        })
+    
+    
     }
+        
     
     
     

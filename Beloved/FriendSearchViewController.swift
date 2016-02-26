@@ -7,19 +7,19 @@
 //
 
 import UIKit
-import Parse
 
-class FriendSearchViewController: UIViewController {
+
+class FriendSearchViewController: UITableViewController {
+    
+
+    
+    let searchController = UISearchController(searchResultsController: nil)
+   
     
     
-    @IBOutlet weak var searchBar: UISearchBar!
+    var user: User?
     
-    @IBOutlet weak var tableView: UITableView!
-    
-    
-    var users: [PFUser]?
-    
-    var friendUsers: [PFUser]? {
+    var friendUsers: [User]? {
        
         didSet {
             
@@ -28,70 +28,68 @@ class FriendSearchViewController: UIViewController {
     }
     
     
-    var querry: PFQuery? {
-        
-        didSet {
-            oldValue?.cancel()
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableHeaderView = searchController.searchBar
+        searchController.searchBar.delegate = self
+        
         
     }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return users?.count ?? 0
+        return 1
+    }
     
-}
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("userCell")
+        
+        cell?.textLabel?.text = user?.firstName
+        
+        
+        
+        
 
-extension FriendSearchViewController: UITableViewDataSource{
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users?.count ?? 0
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("UserCell") as! FriendSearchTableViewCell
-        
-        let user = users![indexPath.row]
-        cell.user = user
-        
+
         if let friendUsers = friendUsers {
             
-            cell.canBecomeFriend = !friendUsers.contains(user)
+            // cell.canBecomeFriend = !friendUsers.contains(user)
         }
         
-        cell.delegate = self
+//        cell.delegate = self
         
-        return cell
+        return cell!
         
     }
+    
 }
 
+
+
 extension FriendSearchViewController: UISearchBarDelegate{
+
     
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(true, animated: true)
-    }
-    
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-    
-        searchBar.resignFirstResponder()
-        searchBar.text = ""
-        searchBar.setShowsCancelButton(false, animated: true)
-    
-    }
-    
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         
+        let lowercaseSearchBarText = searchBar.text?.lowercaseString
+
+        FirebaseHelper.sharedInstance().searchByUserName(lowercaseSearchBarText!, didPickUser:  {
+            (exist, user) in
+            if exist {
+                self.user = user
+                self.tableView.reloadData()
+            }
+        })
     }
-    
-    
+
 }
+
 
 
 extension FriendSearchViewController: FriendSearchTableViewCellDelegate {
     
-    func cell(cell: FriendSearchTableViewCell, didSelectUnFriendUser user: PFUser) {
+    func cell(cell: FriendSearchTableViewCell, didSelectUnFriendUser user: User) {
         
         //When the user tap on user isn't friend he send request to become friend
         // send push notification
@@ -100,7 +98,7 @@ extension FriendSearchViewController: FriendSearchTableViewCellDelegate {
         
     }
     
-    func cell(cell: FriendSearchTableViewCell, didSelectFriendUser user: PFUser) {
+    func cell(cell: FriendSearchTableViewCell, didSelectFriendUser user: User) {
         //When the user tap on user is his friend just unfriend 
         //
         

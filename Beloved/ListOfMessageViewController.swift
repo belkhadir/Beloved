@@ -22,7 +22,7 @@ class ListOfMessageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchBar.backgroundColor = UIColor(colorLiteralRed: 255, green: 255, blue: 255, alpha: 0.15)
+       // searchBar.backgroundColor = UIColor(colorLiteralRed: 255, green: 255, blue: 255, alpha: 0.15)
         
         
     }
