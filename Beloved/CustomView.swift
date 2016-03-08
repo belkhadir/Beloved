@@ -21,7 +21,7 @@ class CustomView: UIView {
         updateLayerFrame()
     }
     func updateLayerFrame() {
-        alpha = 0.85
+        layer.borderWidth = 1.0
         layer.borderColor = UIColor.grayColor().CGColor
         layer.shadowColor = UIColor(white: 0.0, alpha: 0.5).CGColor
         layer.shadowOffset = CGSizeMake(3.0, 3.0)

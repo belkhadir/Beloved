@@ -11,7 +11,7 @@ import Foundation
 
 class SingUpViewController: UIViewController ,
                             UIImagePickerControllerDelegate,
-                            UINavigationControllerDelegate {
+                            UINavigationControllerDelegate{
     
     
     @IBOutlet weak var firstNameText: UITextField!
@@ -26,17 +26,21 @@ class SingUpViewController: UIViewController ,
 
     @IBOutlet weak var usernameText: UITextField!
     
-
+    var isKeyBoardUp: Bool = false
     private var datePickerContentStackView : UIStackView?
     var tapRecognizer: UITapGestureRecognizer? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        firstNameText.delegate = self
+        lastNameText.delegate  = self
+        
         navigationItem.title = "Lest's Get Start"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "SingUp", style: .Plain , target: self, action: "singUp:")
         tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
         tapRecognizer?.numberOfTapsRequired = 1
         addKeyboardDismissRecognizer()
+        
 
     }
   
@@ -84,9 +88,10 @@ class SingUpViewController: UIViewController ,
     
     
     func singUp(sender: UIButton) {
-        
+        sender.enabled = true
         if !isConnectedToNetwork(){
             showAlert(.connectivity)
+            sender.enabled = false
         }
         if emailText.text! != "" && firstNameText.text! != ""  
               &&  lastNameText.text! != "" && usernameText.text! != ""
@@ -102,16 +107,12 @@ class SingUpViewController: UIViewController ,
                     FirebaseHelper.JSONKEY.IMAGE : imageEncodedBase64(imagePicker.imageView?.image)! ?? ""
                 ]
                 let user = User(parameter: parameter)
-                sender.enabled = true
                 SingUp.Email(user).singUp(self)
         }else {
+            sender.enabled = false
             showAlert(.unCompleteField)
         }
-        
-        
     }
-    
-    
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
@@ -130,14 +131,15 @@ extension SingUpViewController : SingUpDelegate{
     
     
     func singUp(navigation: UIViewController?, didFaild error: NSString) {
-        print(error)
+        
+        showAlert(.custom("error",error as String))
     }
     
     func singUp(navigation: UIViewController?, didSingUp user: User) {
-     
-        let listOfMessageVC = self.storyboard?.instantiateViewControllerWithIdentifier("ListOfMessageViewController") as! ListOfMessageViewController
+        CurrentUser.sharedInstance().user = user
+        let listOfMessageVC = self.storyboard?.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
         dispatch_async(dispatch_get_main_queue(), {
-            self.presentViewController(listOfMessageVC, animated: true, completion: nil)
+            self.navigationController?.pushViewController(listOfMessageVC, animated: true)
         })
         
         
@@ -172,9 +174,35 @@ extension SingUpViewController {
 
 //Mark: Keyboard
 
-extension SingUpViewController {
+extension SingUpViewController: UITextFieldDelegate {
+
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     func keyboardWillShow(notification: NSNotification) {
-        view.frame.origin.y -= getKeyboardHeight(notification)
+        isKeyBoardUp = true
+        if firstNameText.editing || lastNameText.editing {
+            if isKeyBoardUp {
+                view.frame.origin.y = 0
+                isKeyBoardUp = false
+            }
+        }else if emailText.editing || passwordText.editing {
+            if isKeyBoardUp{
+                view.frame.origin.y = 0
+                view.frame.origin.y -= getKeyboardHeight(notification)/2
+                isKeyBoardUp = false
+            }
+        }else {
+            if isKeyBoardUp {
+                view.frame.origin.y = 0
+                view.frame.origin.y -= getKeyboardHeight(notification)
+                isKeyBoardUp = false
+            }
+        }
+        
     }
     
     func subscribeToKeyboardNotification(){
@@ -195,7 +223,25 @@ extension SingUpViewController {
     }
     
     func keyboardWillHide(notification: NSNotification){
-        view.frame.origin.y += getKeyboardHeight(notification)
+        isKeyBoardUp = true
+        if firstNameText.editing || lastNameText.editing {
+            if isKeyBoardUp {
+                view.frame.origin.y = 0
+                isKeyBoardUp = false
+            }
+        }else if emailText.editing || passwordText.editing {
+            if isKeyBoardUp{
+                view.frame.origin.y = 0
+                view.frame.origin.y += getKeyboardHeight(notification)/2
+                isKeyBoardUp = false
+            }
+        }else {
+            if isKeyBoardUp {
+                view.frame.origin.y = 0
+                 view.frame.origin.y += getKeyboardHeight(notification)
+                isKeyBoardUp = false
+            }
+        }
     }
 
     func addKeyboardDismissRecognizer() {

@@ -31,10 +31,10 @@ extension FirebaseHelper {
         static let MESSAGE = "message"
         static let UID = "uid"
         static let DATE = "date"
-        static let FRIEND = "Friends"
+        static let FRIEND = "ListOfFriend"
         static let IMAGE = "image"
         static let PASSWORD = "password"
-        
+        static let SENDERID = "senderId"
     }
     
     

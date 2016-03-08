@@ -11,8 +11,8 @@ import UIKit
 
 protocol FriendSearchTableViewCellDelegate : class {
     
-    func cell(cell: FriendSearchTableViewCell, didSelectFriendUser user: Friend)
-    func cell(cell: FriendSearchTableViewCell, didSelectUnFriendUser user: Friend)
+    func cell(cell: FriendSearchTableViewCell, didSelectFriendUser user: User)
+    func cell(cell: FriendSearchTableViewCell, didSelectUnFriendUser user: User)
     
 }
 
@@ -26,10 +26,10 @@ class FriendSearchTableViewCell: UITableViewCell {
     
     weak var delegate: FriendSearchTableViewCellDelegate?
     
-    var user: Friend? {
+    var user: User? {
         didSet {
-            username.text = user?.username
-//            imageProfile.image = imageDecodeBase64(user?.image64EncodeImage)
+            username.text = "\(user!.email)"
+            imageProfile.image = imageDecodeBase64(user?.image64EncodeImage)
             
         }
     }
@@ -37,26 +37,31 @@ class FriendSearchTableViewCell: UITableViewCell {
     var canBecomeFriend: Bool? = true {
         didSet {
             
-
+            /*
+            Change the state of the friend button based on whether or not
+            it is possible to follow a user.
+            */
+            
             if let canBecomeFriend = canBecomeFriend {
-                
+                friendButton.setImage(<#T##image: UIImage?##UIImage?#>, forState: .Selected)
                 friendButton.selected   = !canBecomeFriend
             }
+            
         }
     }
+    
+    
     
     
     
     @IBAction func friendButtonTapped(sender: UIButton) {
         
         if let canBecomeFriend = canBecomeFriend where canBecomeFriend == true {
-            sender.setImage(UIImage(imageLiteral: "cancel"), forState: .Normal)
             
             delegate?.cell(self, didSelectFriendUser: user!)
             self.canBecomeFriend = false
             
         }else{
-            sender.setImage(UIImage(imageLiteral: "add"), forState: .Normal)
             delegate?.cell(self, didSelectFriendUser: user!)
             canBecomeFriend = true
         }

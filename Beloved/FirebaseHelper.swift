@@ -13,14 +13,15 @@ import Firebase
 
 class FirebaseHelper {
 
-    typealias completionHandlerMessage = (error: String? , messages: AnyObject?) -> Void
-    typealias completionHandlerResult = (result: AnyObject?) -> Void
+    typealias completionHandlerMessage = (error: String? , messages: [String: AnyObject]?) -> Void
+    typealias completionHandlerResult = (result: AnyObject?, userKeyId: String?) -> Void
     typealias completionHandlerSuccess = (success: Bool) -> Void
     static let BASEREF = Firebase(url: Constants.BASE_URL)
 
     let messageRef  = Firebase(url: Constants.MESSAGE_URL)
     let userRef = Firebase(url: Constants.USER_URL)
-    
+
+
     
     let id = {(from:String , to: String) -> String in
             return from < to ? from + to : to + from
@@ -59,10 +60,10 @@ class FirebaseHelper {
         let id =   from < to ? from + to : to + from
         
         let newMessage = [
-            "from" : from,
-            "to"    : to,
-            "message" : message,
-            "date" : "\(NSDate())"
+            JSONKEY.SENDERID    : from,
+            JSONKEY.MESSAGE : message,
+            JSONKEY.DATE : "\(NSDate())" ,
+          
         ]
         
         messageRef?.childByAppendingPath("\(id)/\(messageAutoId)").setValue(newMessage, withCompletionBlock: {
@@ -87,7 +88,11 @@ class FirebaseHelper {
             let messageKey = snapshot.key as String
             self.messageRef.childByAppendingPath("\(self.id(from, to))/\(messageKey)").observeSingleEventOfType(.Value,
                     withBlock: { snapchot in
-                                completionHandler(error: nil, messages: snapchot.value)
+                        if let message = snapchot.value as? [String: AnyObject] {
+                            
+                            completionHandler(error: nil, messages: message)
+                        }
+                        
             })
         })
         
@@ -114,38 +119,36 @@ class FirebaseHelper {
             let userKey = snapchot.key
             self.userRef.childByAppendingPath("\(userKey)").observeSingleEventOfType(.Value, withBlock: {
                 snapchot in
-                    completionHandler(result: snapchot.value)
+                completionHandler(result: snapchot.value, userKeyId: userKey)
             })
         })
     }
     
     
     func searchByUserName(userName: String, didExist completionHandler: (exist: Bool) -> Void){
-        
-        FirebaseHelper.sharedInstance().fetcheAllUser({
-            result in
+
+       fetcheAllUser({
+            (result, _) in
             if let result = result as? [String: AnyObject] {
                 if let newResult = result[FirebaseHelper.JSONKEY.USERNAME] as? String
                     where newResult == userName {
                         completionHandler(exist: true)
-                    
+                        self.userRef.removeAllObservers()
                 }else{
                     completionHandler(exist: false)
                 }
-            }else{
-                completionHandler(exist: false)
             }
         })
     }
     
-    func searchByUserName(userName: String, didPickUser completionHandler: (exist: Bool, user: User?) -> Void){
-        
-        FirebaseHelper.sharedInstance().fetcheAllUser({
-            result in
-            if let result = result as? [String: AnyObject] {
+    func searchByUserName(userName: String, didPickUser completionHandler: (exist: Bool, user: [String: AnyObject]?) -> Void){
+        fetcheAllUser({
+            (result, userKey) in
+            if var result = result as? [String: AnyObject] {
                 if let newResult = result[FirebaseHelper.JSONKEY.USERNAME] as? String
                     where newResult == userName {
-                        completionHandler(exist: true, user: User(parameter: result))
+                        result[FirebaseHelper.JSONKEY.UID] = userKey
+                        completionHandler(exist: true, user: result)
                 }else{
                     completionHandler(exist: false, user: nil)
                 }
@@ -153,30 +156,29 @@ class FirebaseHelper {
                 completionHandler(exist: false, user: nil)
             }
         })
+        
     }
     
-    func retrieveImage(userId: String, didPickImage completionHndler: (imageBaseString: String?) -> Void){
-        userRef.childByAppendingPath("\(userId)").observeEventType(.Value, withBlock: {
-            completionHndler(imageBaseString: $0.value as? String)
+    func getSingleUser(userIdKey: String, completionHandler: (error: String?,user: User?)->Void ) {
+        
+        userRef.childByAppendingPath("\(userIdKey)").observeSingleEventOfType(.Value, withBlock: {
+            snapchot in
+            if let snapchot = snapchot.value as? [String: AnyObject] {
+                completionHandler(error: nil, user: User(parameter: snapchot))
+            }else{
+                completionHandler(error: "faild to get user Info", user: nil)
+            }
         })
         
     }
     
-    
-    
-    
-    
-    
-    func updateFirstName(completionHandle: completionHandlerSuccess){
-        
-        
+    func retrieveImage(userId: String, didPickImage completionHndler: (imageBaseString: String?) -> Void){
+        userRef.childByAppendingPath("\(userId)").observeEventType(.Value, withBlock: {
+            print($0.value)
+            completionHndler(imageBaseString: $0.value as? String)
+        })
         
     }
-    
-    
-    
-    
-    
 
     class func sharedInstance() -> FirebaseHelper {
         struct Singleton {
@@ -186,3 +188,4 @@ class FirebaseHelper {
     }
     
 }
+

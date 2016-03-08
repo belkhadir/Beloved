@@ -14,7 +14,7 @@ struct User{
     //Base Authentication
     var email:String? = nil
     var password:String? = nil
-    
+    var uid: String? = nil
     //Base SingUp
     var firstName: String? = nil
     var lastName: String? = nil
@@ -40,6 +40,7 @@ struct User{
         image64EncodeImage = parameter[FirebaseHelper.JSONKEY.IMAGE] as? String
         password = parameter[FirebaseHelper.JSONKEY.PASSWORD] as? String
         date = parameter[FirebaseHelper.JSONKEY.DATE] as? String
+        uid = parameter[FirebaseHelper.JSONKEY.UID] as? String
         
     }
     
@@ -53,3 +54,20 @@ struct User{
     }
     
 }
+
+//Tracking information of the user after singIn
+class CurrentUser {
+    var user: User?
+    var currentUserConnected: CurrentUserConnected?
+    class func sharedInstance() -> CurrentUser {
+        struct Singleton {
+            static var sharedInstance = CurrentUser()
+        }
+        return Singleton.sharedInstance
+    }
+}
+
+
+
+
+

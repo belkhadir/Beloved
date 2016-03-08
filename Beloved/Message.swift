@@ -7,31 +7,28 @@
 //
 
 import Foundation
+import CoreData
 
-enum SenderMessage {
+class Message: NSManagedObject{
     
-    case outGoing
-    case inComing
     
-}
-
-class Message {
+    @NSManaged var messageText: String
+    @NSManaged var date: NSDate
+    @NSManaged var senderId: String
     
-    //adding CoreData later
+    @NSManaged var friend: Friend?
     
-    let messageText: String?
-    let date: NSDate
-    
-    let senderMessage: SenderMessage
-    
-    init(messageText: String?, date: NSDate?, senderMessage: SenderMessage = .outGoing ){
-        
-        self.messageText = messageText
-        self.date = date!
-        self.senderMessage = senderMessage
+    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
+    init(parameter: [String: AnyObject], context: NSManagedObjectContext){
+        let entity = NSEntityDescription.entityForName("Message", inManagedObjectContext: context)!
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        messageText = parameter[FirebaseHelper.JSONKEY.MESSAGE] as! String
+        date = parameter[FirebaseHelper.JSONKEY.DATE] as! NSDate
+        senderId = parameter[FirebaseHelper.JSONKEY.SENDERID] as! String
     
-    //TODO: make The Message support image
+    }
     
 }

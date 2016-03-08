@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Xcode 7.0">
+    <entity name="CurrentUserConnected" syncable="YES">
+        <attribute name="uid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="friend" toMany="YES" deletionRule="Nullify" destinationEntity="Friend" inverseName="currentUser" inverseEntity="Friend" syncable="YES"/>
+    </entity>
+    <entity name="Friend" syncable="YES">
+        <attribute name="posterPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="currentUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CurrentUserConnected" inverseName="friend" inverseEntity="CurrentUserConnected" syncable="YES"/>
+        <relationship name="messages" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="friend" inverseEntity="Message" syncable="YES"/>
+    </entity>
+    <entity name="Message" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="messageText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="senderId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="friend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="messages" inverseEntity="Friend" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Friend" positionX="520" positionY="-2727" width="128" height="118"/>
+        <element name="Message" positionX="700" positionY="-2727" width="128" height="105"/>
+        <element name="CurrentUserConnected" positionX="513" positionY="-2545" width="128" height="88"/>
+    </elements>
+</model>

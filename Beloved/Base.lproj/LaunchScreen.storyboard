@@ -16,7 +16,18 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="853-QT-K7H">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="853-QT-K7H" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="248-OM-8kW"/>
+                            <constraint firstItem="853-QT-K7H" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="9FR-h7-IT3"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="853-QT-K7H" secondAttribute="bottom" id="Bjh-AU-v8F"/>
+                            <constraint firstAttribute="trailing" secondItem="853-QT-K7H" secondAttribute="trailing" id="VKS-x9-cWT"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,4 +35,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="background" width="640" height="1136"/>
+    </resources>
 </document>

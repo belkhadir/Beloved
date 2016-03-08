@@ -42,6 +42,7 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return result
     }
+
 }
 
 
@@ -54,6 +55,7 @@ extension UIViewController {
         case connectivity
         case server
         case unCompleteField
+        case custom(String, String)
     }
     
     
@@ -71,6 +73,9 @@ extension UIViewController {
         case .unCompleteField:
             title = "Uncomplete Field"
             message = "Please make sure to complete all field"
+        case .custom(let titleAlert, let messageAlert):
+            title = titleAlert
+            message = messageAlert
         }
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
@@ -98,26 +103,7 @@ extension UIViewController {
         return (isReachable && !needsConnection)
     }
     
-    func imageEncodedBase64(imageProfile: UIImage?) -> String? {
-        if let imageProfile = imageProfile {
-            let img:NSData = UIImagePNGRepresentation(imageProfile)!
-            let base64String = img.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
-            return base64String
-        }
-        return nil
-    }
-    
-    
-    func imageDecodeBase64(imageString: String?) -> UIImage? {
-        if let imageString = imageString {
-            let imageData = NSData(base64EncodedString: imageString,
-                options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
-            let decodedImage = UIImage(data:imageData!)
-            return decodedImage
-        }
-        return nil
-    }
-    
+
     
     func configureButton(sender: UIButton) {
         
@@ -128,10 +114,29 @@ extension UIViewController {
         sender.layer.shadowRadius = 6.0
         
     }
+    
 
     
     
-    
-    
-    
 }
+
+func imageEncodedBase64(imageProfile: UIImage?) -> String? {
+    if let imageProfile = imageProfile {
+        let img:NSData = UIImagePNGRepresentation(imageProfile)!
+        let base64String = img.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+        return base64String
+    }
+    return nil
+}
+
+
+func imageDecodeBase64(imageString: String?) -> UIImage? {
+    if let imageString = imageString {
+        let imageData = NSData(base64EncodedString: imageString,
+            options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+        let decodedImage = UIImage(data:imageData!)
+        return decodedImage
+    }
+    return nil
+}
+    

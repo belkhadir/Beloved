@@ -37,34 +37,33 @@ enum LoginProvider {
         }
         
     }
-    
-   private func loginWithFacebook(delegate: LoginProviderDelegate){
-        
-    
-    }
+//    
+//   private func loginWithFacebook(delegate: LoginProviderDelegate){
+//        
+//    
+//    }
 
-   private func login(delegate: LoginProviderDelegate, login user: User){
-            let ref = Firebase(url: "https://beloved.firebaseio.com")
-    ref.authUser(user.email, password: user.password, withCompletionBlock: {
+   private func login(delegate: LoginProviderDelegate, var login user: User){
+        let ref = Firebase(url: "https://beloved.firebaseio.com")
+        ref.authUser(user.email, password: user.password, withCompletionBlock: {
             (error, auth) in
             guard error == nil else {
-
                 delegate.loginProvider(nil, didFaild: error.description as NSString)
                 return
             }
             NSUserDefaults.standardUserDefaults().setValue(auth.uid, forKey: "uid")
-            delegate.loginProvider(nil, didSuccessed: user)
-        
-        
-        
-        
-    })
-    
+            user.uid = auth.uid
+            FirebaseHelper.sharedInstance().getSingleUser(user.uid!, completionHandler: {
+                (error,var newUser) in
+                guard error == nil else{
+                    delegate.loginProvider(nil, didFaild: "faild to log in")
+                    return
+                }
+                newUser?.uid = auth.uid
+                delegate.loginProvider(nil, didSuccessed: newUser!)
+            })
+        })
     }
-        
-        
-    
-    
 }
 
 
