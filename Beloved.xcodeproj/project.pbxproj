@@ -12,7 +12,6 @@
 		3C0EB8F41C767345000168A9 /* Utilies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0EB8F31C767345000168A9 /* Utilies.swift */; };
 		3C5819631C4BC0EA008478B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819621C4BC0EA008478B1 /* AppDelegate.swift */; };
 		3C5819681C4BC0EA008478B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C5819661C4BC0EA008478B1 /* Main.storyboard */; };
-		3C58196B1C4BC0EA008478B1 /* Beloved.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819691C4BC0EA008478B1 /* Beloved.xcdatamodeld */; };
 		3C58196D1C4BC0EA008478B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C58196C1C4BC0EA008478B1 /* Assets.xcassets */; };
 		3C5819701C4BC0EA008478B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C58196E1C4BC0EA008478B1 /* LaunchScreen.storyboard */; };
 		3C58197B1C4BC0EB008478B1 /* BelovedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C58197A1C4BC0EB008478B1 /* BelovedTests.swift */; };
@@ -21,10 +20,16 @@
 		3C5819A31C4D556A008478B1 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819A21C4D556A008478B1 /* Message.swift */; };
 		3C5819A51C4D5685008478B1 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819A41C4D5685008478B1 /* Friend.swift */; };
 		3C5819A71C514152008478B1 /* FriendSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819A61C514152008478B1 /* FriendSearchViewController.swift */; };
-		3C5819A91C5141E5008478B1 /* FriendSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819A81C5141E5008478B1 /* FriendSearchTableViewCell.swift */; };
-		3C5819AC1C5181D3008478B1 /* ListOfMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819AB1C5181D3008478B1 /* ListOfMessageViewController.swift */; };
+		3C5819AC1C5181D3008478B1 /* StartChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819AB1C5181D3008478B1 /* StartChattingViewController.swift */; };
 		3C5819ED1C5E4C39008478B1 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819EC1C5E4C39008478B1 /* FirebaseHelper.swift */; };
 		3C5819EF1C5E4D12008478B1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5819EE1C5E4D12008478B1 /* Constants.swift */; };
+		3CA11FAE1C8397DE00C2E6E1 /* Friendship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA11FAD1C8397DE00C2E6E1 /* Friendship.swift */; };
+		3CA11FB01C83B3EC00C2E6E1 /* FriendSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA11FAF1C83B3EC00C2E6E1 /* FriendSearchTableViewCell.swift */; };
+		3CA11FB21C8453A200C2E6E1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA11FB11C8453A200C2E6E1 /* ProfileViewController.swift */; };
+		3CD54C721C8DB09000967F58 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD54C711C8DB09000967F58 /* CoreDataStackManager.swift */; };
+		3CD54C741C8DB8D300967F58 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD54C731C8DB8D300967F58 /* ImageCache.swift */; };
+		3CD54C771C8F14F500967F58 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3CD54C751C8F14F500967F58 /* Model.xcdatamodeld */; };
+		3CD54C791C8F208300967F58 /* CurrentUserConnected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD54C781C8F208300967F58 /* CurrentUserConnected.swift */; };
 		3CDBFBBB1C65073000C5191A /* SingInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDBFBBA1C65073000C5191A /* SingInViewController.swift */; };
 		3CDBFBBD1C65079B00C5191A /* SingUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDBFBBC1C65079B00C5191A /* SingUpViewController.swift */; };
 		3CDBFBC01C67C85E00C5191A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDBFBBF1C67C85E00C5191A /* User.swift */; };
@@ -49,7 +54,6 @@
 		3C58195F1C4BC0EA008478B1 /* Beloved.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Beloved.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C5819621C4BC0EA008478B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C5819671C4BC0EA008478B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3C58196A1C4BC0EA008478B1 /* Beloved.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Beloved.xcdatamodel; sourceTree = "<group>"; };
 		3C58196C1C4BC0EA008478B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C58196F1C4BC0EA008478B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C5819711C4BC0EA008478B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -61,13 +65,20 @@
 		3C5819A21C4D556A008478B1 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		3C5819A41C4D5685008478B1 /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		3C5819A61C514152008478B1 /* FriendSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchViewController.swift; sourceTree = "<group>"; };
-		3C5819A81C5141E5008478B1 /* FriendSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchTableViewCell.swift; sourceTree = "<group>"; };
-		3C5819AB1C5181D3008478B1 /* ListOfMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListOfMessageViewController.swift; sourceTree = "<group>"; };
+		3C5819AB1C5181D3008478B1 /* StartChattingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartChattingViewController.swift; sourceTree = "<group>"; };
 		3C5819EC1C5E4C39008478B1 /* FirebaseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		3C5819EE1C5E4D12008478B1 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3CA11FAD1C8397DE00C2E6E1 /* Friendship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friendship.swift; sourceTree = "<group>"; };
+		3CA11FAF1C83B3EC00C2E6E1 /* FriendSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchTableViewCell.swift; sourceTree = "<group>"; };
+		3CA11FB11C8453A200C2E6E1 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		3CD54C711C8DB09000967F58 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		3CD54C731C8DB8D300967F58 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		3CD54C761C8F14F500967F58 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		3CD54C781C8F208300967F58 /* CurrentUserConnected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUserConnected.swift; sourceTree = "<group>"; };
 		3CDBFBBA1C65073000C5191A /* SingInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingInViewController.swift; sourceTree = "<group>"; };
 		3CDBFBBC1C65079B00C5191A /* SingUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingUpViewController.swift; sourceTree = "<group>"; };
 		3CDBFBBF1C67C85E00C5191A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		3CE3CB231C825B050095AEEB /* Beloved-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Beloved-Bridging-Header.h"; sourceTree = "<group>"; };
 		3CFD52CF1C809CAC0034EF9B /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		4CD622D5D864CD1CFEE90317 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CE574EAE1A3DB9805B80C65 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -116,17 +127,18 @@
 		3C5819611C4BC0EA008478B1 /* Beloved */ = {
 			isa = PBXGroup;
 			children = (
+				3CE3CB231C825B050095AEEB /* Beloved-Bridging-Header.h */,
+				3C5819621C4BC0EA008478B1 /* AppDelegate.swift */,
+				3CD54C751C8F14F500967F58 /* Model.xcdatamodeld */,
+				3C0EB8F31C767345000168A9 /* Utilies.swift */,
 				3CDBFBBE1C67948500C5191A /* controller */,
 				3C5819EB1C5E4B42008478B1 /* Backend */,
 				3C5819AF1C525B29008478B1 /* CustomView */,
 				3C5819AA1C5160BC008478B1 /* Model */,
-				3C58196C1C4BC0EA008478B1 /* Assets.xcassets */,
-				3C5819621C4BC0EA008478B1 /* AppDelegate.swift */,
 				3C5819661C4BC0EA008478B1 /* Main.storyboard */,
 				3C58196E1C4BC0EA008478B1 /* LaunchScreen.storyboard */,
+				3C58196C1C4BC0EA008478B1 /* Assets.xcassets */,
 				3C5819711C4BC0EA008478B1 /* Info.plist */,
-				3C5819691C4BC0EA008478B1 /* Beloved.xcdatamodeld */,
-				3C0EB8F31C767345000168A9 /* Utilies.swift */,
 			);
 			path = Beloved;
 			sourceTree = "<group>";
@@ -143,8 +155,11 @@
 		3C5819AA1C5160BC008478B1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3CD54C711C8DB09000967F58 /* CoreDataStackManager.swift */,
 				3C5819A21C4D556A008478B1 /* Message.swift */,
 				3C5819A41C4D5685008478B1 /* Friend.swift */,
+				3CD54C731C8DB8D300967F58 /* ImageCache.swift */,
+				3CD54C781C8F208300967F58 /* CurrentUserConnected.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -163,6 +178,7 @@
 			children = (
 				3C5819851C4BC120008478B1 /* LoginProvider.swift */,
 				3C5819A01C4BF066008478B1 /* SingUp.swift */,
+				3CA11FAD1C8397DE00C2E6E1 /* Friendship.swift */,
 				3C5819EC1C5E4C39008478B1 /* FirebaseHelper.swift */,
 				3C5819EE1C5E4D12008478B1 /* Constants.swift */,
 				3CDBFBBF1C67C85E00C5191A /* User.swift */,
@@ -175,10 +191,11 @@
 			children = (
 				3CDBFBBC1C65079B00C5191A /* SingUpViewController.swift */,
 				3CDBFBBA1C65073000C5191A /* SingInViewController.swift */,
-				3C5819AB1C5181D3008478B1 /* ListOfMessageViewController.swift */,
+				3C5819AB1C5181D3008478B1 /* StartChattingViewController.swift */,
 				3C0AEBF81C80E3F200A6ED9F /* MainViewController.swift */,
+				3CA11FB11C8453A200C2E6E1 /* ProfileViewController.swift */,
 				3C5819A61C514152008478B1 /* FriendSearchViewController.swift */,
-				3C5819A81C5141E5008478B1 /* FriendSearchTableViewCell.swift */,
+				3CA11FAF1C83B3EC00C2E6E1 /* FriendSearchTableViewCell.swift */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -354,24 +371,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C5819A91C5141E5008478B1 /* FriendSearchTableViewCell.swift in Sources */,
+				3CD54C741C8DB8D300967F58 /* ImageCache.swift in Sources */,
 				3C5819A71C514152008478B1 /* FriendSearchViewController.swift in Sources */,
-				3C5819AC1C5181D3008478B1 /* ListOfMessageViewController.swift in Sources */,
+				3CD54C791C8F208300967F58 /* CurrentUserConnected.swift in Sources */,
+				3C5819AC1C5181D3008478B1 /* StartChattingViewController.swift in Sources */,
+				3CA11FB21C8453A200C2E6E1 /* ProfileViewController.swift in Sources */,
 				3CDBFBBB1C65073000C5191A /* SingInViewController.swift in Sources */,
+				3CA11FAE1C8397DE00C2E6E1 /* Friendship.swift in Sources */,
 				3C5819A51C4D5685008478B1 /* Friend.swift in Sources */,
 				3C0AEBF91C80E3F200A6ED9F /* MainViewController.swift in Sources */,
 				3C5819A11C4BF066008478B1 /* SingUp.swift in Sources */,
+				3CD54C771C8F14F500967F58 /* Model.xcdatamodeld in Sources */,
 				3CFD52D01C809CAC0034EF9B /* CustomView.swift in Sources */,
 				3C5819631C4BC0EA008478B1 /* AppDelegate.swift in Sources */,
 				3C5819A31C4D556A008478B1 /* Message.swift in Sources */,
+				3CA11FB01C83B3EC00C2E6E1 /* FriendSearchTableViewCell.swift in Sources */,
 				3C0EB8F41C767345000168A9 /* Utilies.swift in Sources */,
 				3CDBFBBD1C65079B00C5191A /* SingUpViewController.swift in Sources */,
 				3C5819ED1C5E4C39008478B1 /* FirebaseHelper.swift in Sources */,
 				3C5819861C4BC120008478B1 /* LoginProvider.swift in Sources */,
 				3C0AEBF71C80B59600A6ED9F /* CustomContainerSingInView.swift in Sources */,
+				3CD54C721C8DB09000967F58 /* CoreDataStackManager.swift in Sources */,
 				3CDBFBC01C67C85E00C5191A /* User.swift in Sources */,
 				3C5819EF1C5E4D12008478B1 /* Constants.swift in Sources */,
-				3C58196B1C4BC0EA008478B1 /* Beloved.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +530,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.firebase.beloved;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Beloved/Beloved-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -526,6 +549,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.firebase.beloved;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Beloved/Beloved-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -587,13 +611,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		3C5819691C4BC0EA008478B1 /* Beloved.xcdatamodeld */ = {
+		3CD54C751C8F14F500967F58 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				3C58196A1C4BC0EA008478B1 /* Beloved.xcdatamodel */,
+				3CD54C761C8F14F500967F58 /* Model.xcdatamodel */,
 			);
-			currentVersion = 3C58196A1C4BC0EA008478B1 /* Beloved.xcdatamodel */;
-			path = Beloved.xcdatamodeld;
+			currentVersion = 3CD54C761C8F14F500967F58 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

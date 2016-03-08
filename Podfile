@@ -2,6 +2,7 @@
 #platform :ios, ‘8.0’
 # Uncomment this line if you're using Swift
 pod 'Firebase', '>= 2.5.0'
+pod 'JSQMessagesViewController'
 
 target 'Beloved' do
 
