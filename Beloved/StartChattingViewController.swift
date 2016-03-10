@@ -14,7 +14,7 @@ class StartChattingViewController: JSQMessagesViewController {
     
     var friend: Friend?
     var jGSMessages = [JSQMessage]()
-    var messages = [Message]()
+    var messages: [Message] = [Message]()
     var outgoingBubbleImageView: JSQMessagesBubbleImage!
     var incomingBubbleImageView: JSQMessagesBubbleImage!
     
@@ -27,31 +27,26 @@ class StartChattingViewController: JSQMessagesViewController {
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
         setupBubbles()
         
-        jGSMessages = fetchedAllMessage().map({message in
-            return JSQMessage(senderId: message.senderId, senderDisplayName: "", date: message.date, text: message.messageText)
-        })
-        
-        
+        messages = fetchedAllMessage() as [Message] //ISSUE come from this line and affect the comming line
+        //The app crashes when we post a message to a user, moving back and then trying to post another message
+        if messages.count > 0 {
+            for message in messages {
+                let jGSMessage = JSQMessage(senderId: message.senderId, senderDisplayName: "", date: message.date, text: message.messageText)
+                jGSMessages.append(jGSMessage)
+            }
+        }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+
+
+    func fetchedAllMessage()  -> [Message] {
         
-        FirebaseHelper.sharedInstance().retrieveMessage(senderId!, to: friend!.username!, completionHandler: {
-            (error, newMessage) in
-            if error == nil {
-//                self.jGSMessages.append(JSQMessage(senderId: newMessage!.senderId, displayName: "", text: newMessage!.messageText))
-                self.collectionView?.reloadData()
-            }else{
-                self.showAlert(.custom("title",error!))
-            }
-        })
-        
-    }
-    func fetchedAllMessage() -> [Message] {
+        //creat the fetch request
         let fetchedRequest = NSFetchRequest(entityName: "Message")
         let predicate = NSPredicate(format: "friend = %@", friend!)
         fetchedRequest.predicate = predicate
+        
+        //execute the fetch request
         do {
             return try sharedContext.executeFetchRequest(fetchedRequest) as! [Message]
         }catch _ {
