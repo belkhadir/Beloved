@@ -29,6 +29,16 @@ class FriendSearchTableViewCell: UITableViewCell {
     var user: Friend? {
         didSet {
             username.text = user?.username
+            FirebaseHelper.sharedInstance().canBecomeFirend(user!.uid!, didBecomeFriend: {
+                status in
+                if status == nil {
+                    self.friendButton.setImage(UIImage(imageLiteral: "add"), forState: .Normal)
+                }else if status! {
+                    self.friendButton.setImage(UIImage(imageLiteral: "cancel"), forState: .Normal)
+                }else{
+                    self.friendButton.setImage(UIImage(imageLiteral: "add"), forState: .Normal)
+                }
+            })
 //            imageProfile.image = imageDecodeBase64(user?.image64EncodeImage)
             
         }
