@@ -12,6 +12,7 @@ import CoreData
 class FriendSearchViewController: UITableViewController{
     
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let searchController = UISearchController(searchResultsController: nil)
    
@@ -19,16 +20,82 @@ class FriendSearchViewController: UITableViewController{
     var friendUsers = [Friend]()
     var currentUser: CurrentUserConnected?
     
+    //it's make easy to know fetchAllFriendFromFirebase function start getting data from the server
+    var startGettingFriendFromFirebase: Bool = false {
+        didSet {
+            if startGettingFriendFromFirebase {
+                activityIndicator.startAnimating()
+                activityIndicator.hidden = false
+            }else{
+                activityIndicator.stopAnimating()
+                activityIndicator.hidden = true
+            }
+        }
+        
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.activityIndicator.hidden = true
+        
+        navigationController?.navigationBar.topItem?.title = "Logout"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "logOut:")
+        
         tableView.tableHeaderView = searchController.searchBar
         searchController.searchBar.delegate = self
         
         friendUsers = fetchedAllFriend()
-
+        
+        fetchAllFriendFromFirebase()
+        
+    }
+    
+    //fetch all friend from the server
+    func fetchAllFriendFromFirebase() {
+        
+        //Mark- start getting data from server
+        startGettingFriendFromFirebase = true
+        
+        FirebaseHelper.sharedInstance().getAllCurrentUserFirends({
+            userIdKey in
+            
+            for element in self.friendUsers {
+                if element.uid == userIdKey! {
+                    self.startGettingFriendFromFirebase = false
+                    return
+                }
+            }
+            
+            FirebaseHelper.sharedInstance().getSingleUser(userIdKey!, completionHandler: {
+                (error, userFriend) in
+                guard error == nil else{
+                    self.startGettingFriendFromFirebase = false
+                    return
+                }
+                
+                //The user friend was picked from the server
+                //we need to make a new Friend. To be easy to save in CoreData
+                //The easiest way to do that is to make a dictionary.
+                
+                let dictionary: [String : AnyObject] = [
+                    Friend.Keys.username: userFriend!.userName!,
+                    Friend.Keys.uid: userFriend!.uid!,
+                ]
+                
+                let friendToBeAdd = Friend(parameter: dictionary, context: self.sharedContext)
+                self.friendUsers.append(friendToBeAdd)
+                self.tableView.reloadData()
+                
+                CoreDataStackManager.sharedInstance().saveContext()
+                
+            })
+            
+        })
+        
+        //Mark- finishing getting data from server
+        startGettingFriendFromFirebase = false
         
     }
     
@@ -36,6 +103,8 @@ class FriendSearchViewController: UITableViewController{
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
 
+    
+    //fetch all friend from the CoreData
     func fetchedAllFriend() -> [Friend] {
         let fetchedRequest = NSFetchRequest(entityName: "Friend")
         let predicate = NSPredicate(format: "currentUser = %@", CurrentUser.sharedInstance().currentUserConnected!)
@@ -52,27 +121,11 @@ class FriendSearchViewController: UITableViewController{
     }
     
     
-    func setUpFirendUser() {
-        FirebaseHelper.sharedInstance().getAllCurrentUserFirends({
-            (error, users) in
-            guard error == nil else{
-                return
-            }
-            for (key, _) in users! {
-                
-                FirebaseHelper.sharedInstance().getSingleUser(key, completionHandler: {
-                    (error, userInfo) in
-                    guard error == nil else{
-                        return
-                    }
-//                    self.friendUsers.append(userInfo!)
-                    
-                    
-                })
-            }
-            
-        })
-    }
+
+    
+    
+    
+    // MARK: - Table View
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friendUsers.count
@@ -114,6 +167,7 @@ extension FriendSearchViewController: FriendSearchTableViewCellDelegate {
         FirebaseHelper.sharedInstance().canBecomeFirend(user.uid!, willAccept: true, willBecomeFriend: {
             (_,_) in
             
+            
          })
     
     }
@@ -128,18 +182,28 @@ extension FriendSearchViewController: FriendSearchTableViewCellDelegate {
 extension FriendSearchViewController: UISearchBarDelegate{
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        
+        activityIndicator.startAnimating()
+        activityIndicator.hidden = false
         let lowercaseSearchBarText = searchBar.text?.lowercaseString
 
+        // Check to see if we already have this friend . If so , return
+        if let _ = friendUsers.indexOf({$0.username == lowercaseSearchBarText}) {
+            return
+        }
+        
         FirebaseHelper.sharedInstance().searchByUserName(lowercaseSearchBarText!, didPickUser:  {
             (exist, user) in
+
             if exist {
+                
+                // Insert the actor on the main thread
                 dispatch_async(dispatch_get_main_queue()) {
                     //init the friend user
                     let userFriend = Friend(parameter: user!, context: self.sharedContext)
                     
+                    //Mark - relation
                     userFriend.currentUser = CurrentUser.sharedInstance().currentUserConnected
-                    print(CurrentUser.sharedInstance().currentUserConnected)
+                    
                     // append friendUser to array
                     self.friendUsers.insert(userFriend, atIndex: 0)
                     self.tableView.reloadData()
@@ -150,7 +214,11 @@ extension FriendSearchViewController: UISearchBarDelegate{
                     } catch _ {}
                 }
             }
+            self.activityIndicator.hidden = true
+            self.activityIndicator.stopAnimating()
         })
+
+        
     }
 
 }
