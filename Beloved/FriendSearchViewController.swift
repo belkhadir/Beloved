@@ -84,11 +84,22 @@ class FriendSearchViewController: UITableViewController{
                     Friend.Keys.uid: userFriend!.uid!,
                 ]
                 
-                let friendToBeAdd = Friend(parameter: dictionary, context: self.sharedContext)
-                self.friendUsers.append(friendToBeAdd)
-                self.tableView.reloadData()
+                // Insert the Friend on the main thread
+                dispatch_async(dispatch_get_main_queue(), {
                 
-                CoreDataStackManager.sharedInstance().saveContext()
+                    //Init - Friend user 
+                    let friendToBeAdd = Friend(parameter: dictionary, context: self.sharedContext)
+                
+                    friendToBeAdd.currentUser = CurrentUser.sharedInstance().currentUserConnected
+                    
+                    self.friendUsers.append(friendToBeAdd)
+                    
+                    self.tableView.reloadData()
+                    
+                    //Save in the context
+                    CoreDataStackManager.sharedInstance().saveContext()
+                })
+                
                 
             })
             
@@ -196,7 +207,7 @@ extension FriendSearchViewController: UISearchBarDelegate{
 
             if exist {
                 
-                // Insert the actor on the main thread
+                // Insert the Friend on the main thread
                 dispatch_async(dispatch_get_main_queue()) {
                     //init the friend user
                     let userFriend = Friend(parameter: user!, context: self.sharedContext)

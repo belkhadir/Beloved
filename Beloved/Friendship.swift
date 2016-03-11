@@ -39,10 +39,12 @@ extension FirebaseHelper{
     /** if status is false that's mean the request still pending 
         if it's nil that's mean he refuse the request 
         if it's true that's mean accepte the request */
-    func canBecomeFirend(userIdKey: String, didResponseFriendShip completionHandler: (status: Bool?) -> Void ){
+    func canBecomeFirend(userIdKey: String, didBecomeFriend completionHandler: (status: Bool?) -> Void ){
         let friendRef = Firebase(url: Constants.USER_URL)
         
-        friendRef.childByAppendingPath("\(CurrentUser.sharedInstance().user?.uid)/ListOfFriend").observeSingleEventOfType(.Value, withBlock: {
+        let pathString = "\(CurrentUser.sharedInstance().user!.uid!)/ListOfFriend/"
+        
+        friendRef.childByAppendingPath(pathString).observeSingleEventOfType(.Value, withBlock: {
             snapchot in
             guard let target = snapchot.value as? [String: AnyObject]
             where (target[userIdKey] as? Bool) != nil else{
@@ -58,15 +60,18 @@ extension FirebaseHelper{
         
     }
     
-    func getAllCurrentUserFirends(completionHandler: (error: String? , userFriendShip: [String: AnyObject]?) -> Void) {
+    func getAllCurrentUserFirends(completionHandler: (userFriendShip: String?) -> Void) {
         
         FirebaseHelper.sharedInstance().userRef.childByAppendingPath("\(CurrentUser.sharedInstance().user?.uid)/ListOfFriend").observeSingleEventOfType(.Value, withBlock: {
             snapchot in
-            if let snapchot = snapchot.value as? [String: AnyObject] {
-                completionHandler(error: nil, userFriendShip: snapchot)
-            }else {
-                completionHandler(error: "faild to load user", userFriendShip: nil)
+            
+            guard let isFriend = snapchot.value as? Bool else{
+                return
             }
+            if isFriend {
+                completionHandler(userFriendShip: snapchot.key)
+            }
+
         })
     }
 }

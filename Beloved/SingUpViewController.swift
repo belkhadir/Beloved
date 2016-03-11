@@ -35,8 +35,11 @@ class SingUpViewController: UIViewController ,
         firstNameText.delegate = self
         lastNameText.delegate  = self
         
+        imagePicker.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
+        
         navigationItem.title = "Lest's Get Start"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "SingUp", style: .Plain , target: self, action: "singUp:")
+        
         tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
         tapRecognizer?.numberOfTapsRequired = 1
         addKeyboardDismissRecognizer()
