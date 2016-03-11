@@ -62,15 +62,21 @@ extension FirebaseHelper{
     
     func getAllCurrentUserFirends(completionHandler: (userFriendShip: String?) -> Void) {
         
-        FirebaseHelper.sharedInstance().userRef.childByAppendingPath("\(CurrentUser.sharedInstance().user?.uid)/ListOfFriend").observeSingleEventOfType(.Value, withBlock: {
+        FirebaseHelper.sharedInstance().userRef.childByAppendingPath("\(CurrentUser.sharedInstance().user!.uid!)/ListOfFriend").observeSingleEventOfType(.Value, withBlock: {
             snapchot in
-            
-            guard let isFriend = snapchot.value as? Bool else{
+
+            guard let dictionaryOfFirend = snapchot.value as? [String: AnyObject] else{
                 return
             }
-            if isFriend {
-                completionHandler(userFriendShip: snapchot.key)
+            
+            for (key, value) in dictionaryOfFirend {
+                if let isFriend = value as? Bool where isFriend == true {
+                    completionHandler(userFriendShip: key)
+                }
             }
+//            if isFriend[0] {
+//                completionHandler(userFriendShip: snapchot.key)
+//            }
 
         })
     }
