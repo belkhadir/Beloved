@@ -46,11 +46,17 @@ class FriendSearchViewController: UITableViewController{
         tableView.tableHeaderView = searchController.searchBar
         searchController.searchBar.delegate = self
         
+        
         friendUsers = fetchedAllFriend()
         
-        fetchAllFriendFromFirebase()
+        //if ther's no friend saved in CoreData look at his friend on the server
+        if friendUsers.count == 0 {
+            fetchAllFriendFromFirebase()
+        }
+
         
     }
+
     
     //fetch all friend from the server
     func fetchAllFriendFromFirebase() {
@@ -60,7 +66,7 @@ class FriendSearchViewController: UITableViewController{
         
         FirebaseHelper.sharedInstance().getAllCurrentUserFirends({
             userIdKey in
-            
+
             for element in self.friendUsers {
                 if element.uid == userIdKey! {
                     self.startGettingFriendFromFirebase = false
@@ -81,7 +87,7 @@ class FriendSearchViewController: UITableViewController{
                 
                 let dictionary: [String : AnyObject] = [
                     Friend.Keys.username: userFriend!.userName!,
-                    Friend.Keys.uid: userFriend!.uid!,
+                    Friend.Keys.uid: userIdKey!,
                 ]
                 
                 // Insert the Friend on the main thread
@@ -93,9 +99,9 @@ class FriendSearchViewController: UITableViewController{
                     friendToBeAdd.currentUser = CurrentUser.sharedInstance().currentUserConnected
                     
                     self.friendUsers.append(friendToBeAdd)
-                    
+
                     self.tableView.reloadData()
-                    
+                    self.startGettingFriendFromFirebase = false                    
                     //Save in the context
                     CoreDataStackManager.sharedInstance().saveContext()
                 })
@@ -106,7 +112,7 @@ class FriendSearchViewController: UITableViewController{
         })
         
         //Mark- finishing getting data from server
-        startGettingFriendFromFirebase = false
+        
         
     }
     
