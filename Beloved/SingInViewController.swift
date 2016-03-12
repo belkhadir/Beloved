@@ -15,12 +15,12 @@ class SingInViewController:UIViewController {
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
     @IBOutlet weak var singInstackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator.hidden = true
+
         let backgroundImage = UIImageView(frame: UIScreen.mainScreen().bounds)
         backgroundImage.image = UIImage(named: "background")
         view.insertSubview(backgroundImage, atIndex: 0)
@@ -31,8 +31,6 @@ class SingInViewController:UIViewController {
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        view.alpha = 1.0
-        activityIndicator.hidden = true
     }
 
     var sharedContext: NSManagedObjectContext {
@@ -40,15 +38,9 @@ class SingInViewController:UIViewController {
     }
     
     @IBAction func singIn(sender: UIButton) {
-        sender.enabled = true
-        view.alpha = 0.5
-        activityIndicator.startAnimating()
-        activityIndicator.hidden = false
+
         if !isConnectedToNetwork() {
-            view.alpha = 1.0
             sender.enabled = false
-            activityIndicator.hidden = true
-            activityIndicator.stopAnimating()
             showAlert(.connectivity)
         }else{
             if emailText.text! != "" && passwordText.text! != "" {
@@ -56,10 +48,8 @@ class SingInViewController:UIViewController {
                 
                 LoginProvider.Email(user).login(self)
             }else{
-                view.alpha = 1.0
                 sender.enabled = false
-                activityIndicator.hidden = true
-                activityIndicator.stopAnimating()
+
                 showAlert(.unCompleteField)
             }
         }
