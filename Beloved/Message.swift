@@ -12,6 +12,7 @@ import CoreData
 class Message: NSManagedObject{
     
     
+    @NSManaged var messageId: String
     @NSManaged var messageText: String
     @NSManaged var date: NSDate
     @NSManaged var senderId: String
@@ -28,7 +29,7 @@ class Message: NSManagedObject{
         messageText = parameter[FirebaseHelper.JSONKEY.MESSAGE] as! String
         date = parameter[FirebaseHelper.JSONKEY.DATE] as! NSDate
         senderId = parameter[FirebaseHelper.JSONKEY.SENDERID] as! String
-    
+        messageId = parameter[FirebaseHelper.JSONKEY.MESSAGE] as! String
     }
     
 }

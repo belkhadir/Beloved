@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         
+        
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "bar"), forBarMetrics: .Default)
         UINavigationBar.appearance().backItem?.backBarButtonItem?.tintColor = UIColor.whiteColor()
         UISearchBar.appearance().barTintColor = UIColor.extraGreen()

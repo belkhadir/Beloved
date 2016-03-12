@@ -14,6 +14,7 @@
     </entity>
     <entity name="Message" representedClassName=".Message" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="messageId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="messageText" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="senderId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="friend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="messages" inverseEntity="Friend" syncable="YES"/>
@@ -21,6 +22,6 @@
     <elements>
         <element name="CurrentUserConnected" positionX="513" positionY="-2545" width="128" height="90"/>
         <element name="Friend" positionX="520" positionY="-2727" width="128" height="120"/>
-        <element name="Message" positionX="700" positionY="-2727" width="128" height="105"/>
+        <element name="Message" positionX="700" positionY="-2727" width="128" height="120"/>
     </elements>
 </model>

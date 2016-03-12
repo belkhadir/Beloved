@@ -54,7 +54,7 @@ class FirebaseHelper {
     
     
     func sendMessage(from: String, to: String, message: String,
-        completionHandler: (error: String?, firebase: Firebase!) -> Void ) {
+        completionHandler: (error: String?, messageId: String?) -> Void ) {
 
         let messageAutoId = messageRef.childByAutoId().key
         let id =   from < to ? from + to : to + from
@@ -69,9 +69,9 @@ class FirebaseHelper {
         messageRef?.childByAppendingPath("\(id)/\(messageAutoId)").setValue(newMessage, withCompletionBlock: {
             (error, firebase) in
             if error == nil {
-                completionHandler(error: nil, firebase: firebase)
+                completionHandler(error: nil, messageId: messageAutoId)
             }else{
-                completionHandler(error: error.description, firebase: firebase)
+                completionHandler(error: error.description, messageId: nil)
             }
         })
     
@@ -174,11 +174,51 @@ class FirebaseHelper {
     
     func retrieveImage(userId: String, didPickImage completionHndler: (imageBaseString: String?) -> Void){
         userRef.childByAppendingPath("\(userId)").observeEventType(.Value, withBlock: {
-            print($0.value)
             completionHndler(imageBaseString: $0.value as? String)
         })
         
     }
+    
+    
+    //Mark let's us to Synchronization data with Firebase
+    func observeMessages(from: String, to: String, completionHandler: (dictionary: [String: AnyObject])-> Void) {
+        
+        //id is the chanel where the conversation between two user are saved
+         let id =   from < to ? from + to : to + from
+        messageRef.childByAppendingPath(id)
+        
+        
+        // limiting the quesry
+        let messagesQuery = messageRef.queryLimitedToLast(25)
+        
+        messagesQuery.observeEventType(.ChildAdded) { (snapshot: FDataSnapshot!) in
+            
+            //creat dictionary to make it easy to save message
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                
+                for (key, value) in dictionary {
+                    
+                    
+                    let timeinterval : NSTimeInterval = (value[JSONKEY.DATE] as! NSString).doubleValue // convert it in to NSTimeInteral
+                    
+                    let dateFromServer = NSDate(timeIntervalSince1970:timeinterval)
+                    
+                    
+                    let messageDictionary: [String: AnyObject] = [
+                        JSONKEY.SENDERID: value[JSONKEY.SENDERID] as! String,
+                        JSONKEY.MESSAGE: value[JSONKEY.MESSAGE] as! String,
+                        JSONKEY.DATE: dateFromServer,
+                        JSONKEY.MESSAGEID: key
+                    ]
+                    completionHandler(dictionary: messageDictionary)
+                }
+            }
+        }
+    }
+    
+    
+    
+    
 
     class func sharedInstance() -> FirebaseHelper {
         struct Singleton {

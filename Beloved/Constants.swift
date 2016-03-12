@@ -35,6 +35,7 @@ extension FirebaseHelper {
         static let IMAGE = "image"
         static let PASSWORD = "password"
         static let SENDERID = "senderId"
+        static let MESSAGEID = "messageId"
     }
     
     
