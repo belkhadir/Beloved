@@ -36,10 +36,14 @@ class StartChattingViewController: JSQMessagesViewController {
             }
         }
         
-        messages = fetchedAllMessage()
-        synchronizingMessage()
-        
     }
+    
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        synchronizingMessage()
+    }
+    
     
     func synchronizingMessage() {
     
@@ -64,6 +68,7 @@ class StartChattingViewController: JSQMessagesViewController {
         })
     }
 
+    
 
     func fetchedAllMessage()  -> [Message] {
         
@@ -92,6 +97,13 @@ class StartChattingViewController: JSQMessagesViewController {
         incomingBubbleImageView = factory.incomingMessagesBubbleImageWithColor(
             UIColor.jsq_messageBubbleLightGrayColor())
     }
+    
+    
+    override func textViewDidEndEditing(textView: UITextView) {
+        super.textViewDidEndEditing(textView)
+        
+    }
+    
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return jGSMessages.count
