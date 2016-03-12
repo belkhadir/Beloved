@@ -24,6 +24,8 @@ class SingInViewController:UIViewController {
         let backgroundImage = UIImageView(frame: UIScreen.mainScreen().bounds)
         backgroundImage.image = UIImage(named: "background")
         view.insertSubview(backgroundImage, atIndex: 0)
+        
+      
 
     }
     

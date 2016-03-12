@@ -27,8 +27,8 @@ class StartChattingViewController: JSQMessagesViewController {
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
         setupBubbles()
         
-        messages = fetchedAllMessage() as [Message] //ISSUE come from this line and affect the comming line
-        //The app crashes when we post a message to a user, moving back and then trying to post another message
+        messages = fetchedAllMessage()
+        
         if messages.count > 0 {
             for message in messages {
                 let jGSMessage = JSQMessage(senderId: message.senderId, senderDisplayName: "", date: message.date, text: message.messageText)
@@ -130,21 +130,25 @@ class StartChattingViewController: JSQMessagesViewController {
                 FirebaseHelper.JSONKEY.SENDERID: senderId!,
                 FirebaseHelper.JSONKEY.DATE: date!
             ]
-            FirebaseHelper.sharedInstance().sendMessage(senderId!, to: friend!.username!, message: text!, completionHandler: {
-                (error, _) in
-                if error == nil {
-                    JSQSystemSoundPlayer.jsq_playMessageSentSound()
-                    let message = Message(parameter: dictionary, context: self.sharedContext)
-                    message.friend = self.friend
-                    do {
-                        try self.sharedContext.save()
-                    }catch _ {}
+            if isConnectedToNetwork() {
+                FirebaseHelper.sharedInstance().sendMessage(senderId!, to: friend!.username!, message: text!, completionHandler: {
+                    (error, _) in
+                    if error == nil {
+                        JSQSystemSoundPlayer.jsq_playMessageSentSound()
+                        let message = Message(parameter: dictionary, context: self.sharedContext)
+                        message.friend = self.friend!
+                        do {
+                            try self.sharedContext.save()
+                        }catch _ {}
                     
-                    self.jGSMessages.append(JSQMessage(senderId: senderId!, displayName: self.friend!.username!, text: text))
-                    self.finishSendingMessage()
-                }else{
-                    self.showAlert(.custom("Send Message Faild",error!))
-                }
-            })
+                        self.jGSMessages.append(JSQMessage(senderId: senderId!, displayName: self.friend!.username!, text: text))
+                        self.finishSendingMessage()
+                    }else{
+                        self.showAlert(.custom("Send Message Faild",error!))
+                    }
+                })
+            }else{
+                showAlert(.connectivity)
+            }
     }
 }

@@ -67,7 +67,7 @@ class FriendSearchTableViewCell: UITableViewCell {
             
         }else{
             sender.setImage(UIImage(imageLiteral: "add"), forState: .Normal)
-            delegate?.cell(self, didSelectFriendUser: user!)
+            delegate?.cell(self, didSelectUnFriendUser: user!)
             canBecomeFriend = true
         }
         

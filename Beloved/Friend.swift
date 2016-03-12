@@ -22,7 +22,7 @@ class Friend: NSManagedObject{
     @NSManaged var uid: String?
     
     @NSManaged var currentUser: CurrentUserConnected?
-    @NSManaged var messages: [Message]?
+    @NSManaged var messages: [Message]
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)

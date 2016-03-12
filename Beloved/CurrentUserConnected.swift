@@ -1,5 +1,5 @@
 //
-//  CurrentUser.swift
+//  CurrentUserConnected.swift
 //  Beloved
 //
 //  Created by Anas Belkhadir on 08/03/2016.
@@ -22,7 +22,7 @@ class CurrentUserConnected: NSManagedObject {
     @NSManaged var username: String
     @NSManaged var uid: String
     
-    @NSManaged var friend: [Friend]?
+    @NSManaged var friend: [Friend]
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)

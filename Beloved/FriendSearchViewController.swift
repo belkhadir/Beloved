@@ -78,6 +78,7 @@ class FriendSearchViewController: UITableViewController{
                 (error, userFriend) in
                 guard error == nil else{
                     self.startGettingFriendFromFirebase = false
+                    self.showAlert(.custom("erro occur", error!))
                     return
                 }
                 
