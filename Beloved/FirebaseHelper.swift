@@ -18,6 +18,8 @@ class FirebaseHelper {
     typealias completionHandlerSuccess = (success: Bool) -> Void
     static let BASEREF = Firebase(url: Constants.BASE_URL)
 
+    
+    let ref = Firebase(url: "https://beloved.firebaseio.com")
     let messageRef  = Firebase(url: Constants.MESSAGE_URL)
     let userRef = Firebase(url: Constants.USER_URL)
 

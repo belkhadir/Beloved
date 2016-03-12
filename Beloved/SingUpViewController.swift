@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import CoreData
 
 class SingUpViewController: UIViewController ,
                             UIImagePickerControllerDelegate,
@@ -26,9 +27,26 @@ class SingUpViewController: UIViewController ,
 
     @IBOutlet weak var usernameText: UITextField!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    
     var isKeyBoardUp: Bool = false
     private var datePickerContentStackView : UIStackView?
     var tapRecognizer: UITapGestureRecognizer? = nil
+    
+    
+    var singUpInprogress: Bool = false {
+        didSet {
+            if singUpInprogress {
+                activityIndicator.startAnimating()
+                activityIndicator.hidden = false
+            }else{
+                activityIndicator.stopAnimating()
+                activityIndicator.hidden = true
+            }
+        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +62,7 @@ class SingUpViewController: UIViewController ,
         tapRecognizer?.numberOfTapsRequired = 1
         addKeyboardDismissRecognizer()
         
-
+        singUpInprogress = false
     }
   
     override func viewWillAppear(animated: Bool) {
@@ -92,9 +110,12 @@ class SingUpViewController: UIViewController ,
     
     
     func singUp(sender: UIButton) {
+        
+        singUpInprogress = true
         sender.enabled = true
         if !isConnectedToNetwork(){
             showAlert(.connectivity)
+            singUpInprogress = false
             sender.enabled = false
         }
         if emailText.text! != "" && firstNameText.text! != ""  
@@ -113,6 +134,7 @@ class SingUpViewController: UIViewController ,
                 let user = User(parameter: parameter)
                 SingUp.Email(user).singUp(self)
         }else {
+            singUpInprogress = false
             sender.enabled = false
             showAlert(.unCompleteField)
         }
@@ -135,18 +157,31 @@ extension SingUpViewController : SingUpDelegate{
     
     
     func singUp(navigation: UIViewController?, didFaild error: NSString) {
-        
+        singUpInprogress = false
         showAlert(.custom("error",error as String))
     }
     
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
     func singUp(navigation: UIViewController?, didSingUp user: User) {
         CurrentUser.sharedInstance().user = user
+        let dictionary: [String: AnyObject] = [FirebaseHelper.JSONKEY.USERNAME: user.userName!,
+            FirebaseHelper.JSONKEY.UID: user.uid!
+        ]
         let listOfMessageVC = self.storyboard?.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
+        
         dispatch_async(dispatch_get_main_queue(), {
+            let current = CurrentUserConnected(parameter: dictionary, context: self.sharedContext)
+            
+            do {
+                try self.sharedContext.save()
+            } catch _ {}
+            
+            CurrentUser.sharedInstance().currentUserConnected = current
             self.navigationController?.pushViewController(listOfMessageVC, animated: true)
         })
-        
-        
+        singUpInprogress = false
     }
     
 }

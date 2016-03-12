@@ -44,8 +44,8 @@ enum LoginProvider {
 //    }
 
    private func login(delegate: LoginProviderDelegate, var login user: User){
-        let ref = Firebase(url: "https://beloved.firebaseio.com")
-        ref.authUser(user.email, password: user.password, withCompletionBlock: {
+        
+        FirebaseHelper.sharedInstance().ref.authUser(user.email, password: user.password, withCompletionBlock: {
             (error, auth) in
             guard error == nil else {
                 delegate.loginProvider(nil, didFaild: error.description as NSString)

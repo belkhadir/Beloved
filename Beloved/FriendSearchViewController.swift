@@ -39,7 +39,7 @@ class FriendSearchViewController: UITableViewController{
         super.viewDidLoad()
         
         self.activityIndicator.hidden = true
-        
+        self.activityIndicator.stopAnimating()
         navigationController?.navigationBar.topItem?.title = "Logout"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "logOut:")
         
@@ -97,7 +97,7 @@ class FriendSearchViewController: UITableViewController{
                     //Init - Friend user 
                     let friendToBeAdd = Friend(parameter: dictionary, context: self.sharedContext)
                 
-                    friendToBeAdd.currentUser = CurrentUser.sharedInstance().currentUserConnected
+                    friendToBeAdd.currentUser = CurrentUser.sharedInstance().currentUserConnected!
                     
                     self.friendUsers.append(friendToBeAdd)
 
@@ -111,6 +111,7 @@ class FriendSearchViewController: UITableViewController{
             })
             
         })
+        startGettingFriendFromFirebase = false
         
         //Mark- finishing getting data from server
         
@@ -141,7 +142,19 @@ class FriendSearchViewController: UITableViewController{
     }
     
     func logOut() {
-        navigationController?.popToRootViewControllerAnimated(true)
+        
+        FirebaseHelper.sharedInstance().messageRef.removeAllObservers()
+        FirebaseHelper.sharedInstance().userRef.removeAllObservers()
+        FirebaseHelper.sharedInstance().ref.unauth()
+        
+        
+        //using presentViewController instead of pushViewController because:
+        //when the first time user singUp and try to logout it's showing the 
+        //previews task .
+        let nvg = storyboard?.instantiateViewControllerWithIdentifier("singInViewController") as! SingInViewController
+        navigationController?.presentViewController(nvg, animated: true, completion: nil)
+        
+
     }
     
     
@@ -233,7 +246,7 @@ extension FriendSearchViewController: UISearchBarDelegate{
                     let userFriend = Friend(parameter: user!, context: self.sharedContext)
                     
                     //Mark - relation
-                    userFriend.currentUser = CurrentUser.sharedInstance().currentUserConnected
+                    userFriend.currentUser = CurrentUser.sharedInstance().currentUserConnected!
                     
                     // append friendUser to array
                     self.friendUsers.insert(userFriend, atIndex: 0)
@@ -249,7 +262,6 @@ extension FriendSearchViewController: UISearchBarDelegate{
             self.activityIndicator.stopAnimating()
         })
 
-        
     }
 
 }

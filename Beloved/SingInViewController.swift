@@ -15,8 +15,24 @@ class SingInViewController:UIViewController {
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     @IBOutlet weak var singInstackView: UIStackView!
+    
+    var singInInprogress: Bool = false {
+        didSet {
+            if singInInprogress {
+                activityIndicator.startAnimating()
+                activityIndicator.hidden = false
+            }else{
+                activityIndicator.stopAnimating()
+                activityIndicator.hidden = true
+            }
+        }
+        
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +41,7 @@ class SingInViewController:UIViewController {
         backgroundImage.image = UIImage(named: "background")
         view.insertSubview(backgroundImage, atIndex: 0)
         
-      
+        singInInprogress  = false
 
     }
     
@@ -38,8 +54,10 @@ class SingInViewController:UIViewController {
     }
     
     @IBAction func singIn(sender: UIButton) {
-
+        
+        singInInprogress = true
         if !isConnectedToNetwork() {
+            singInInprogress = false
             sender.enabled = false
             showAlert(.connectivity)
         }else{
@@ -48,6 +66,7 @@ class SingInViewController:UIViewController {
                 
                 LoginProvider.Email(user).login(self)
             }else{
+                singInInprogress = false
                 sender.enabled = false
 
                 showAlert(.unCompleteField)
@@ -60,6 +79,7 @@ class SingInViewController:UIViewController {
 extension SingInViewController: LoginProviderDelegate {
     
     func loginProvider(navigation: UIViewController?, didFaild error: NSString) {
+        singInInprogress = false
         showAlert(.custom("Faild",error as String))
         
     }
@@ -81,6 +101,7 @@ extension SingInViewController: LoginProviderDelegate {
             CurrentUser.sharedInstance().currentUserConnected = current
             self.navigationController?.pushViewController(listOfMessageVC, animated: true)
         })
+        singInInprogress = false
     }
 }
 

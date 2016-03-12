@@ -102,7 +102,7 @@
         <!--Sing In View Controller-->
         <scene sceneID="ZdZ-Rk-KFo">
             <objects>
-                <viewController id="ggX-Fz-hxe" customClass="SingInViewController" customModule="Beloved" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="singInViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ggX-Fz-hxe" customClass="SingInViewController" customModule="Beloved" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HHE-Tl-4CX"/>
                         <viewControllerLayoutGuide type="bottom" id="hg8-hl-DMc"/>
@@ -199,16 +199,22 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="QLu-Tk-1BY">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="hg8-hl-DMc" firstAttribute="top" secondItem="HcS-pd-nqk" secondAttribute="bottom" constant="250" id="7mt-L8-z1E"/>
+                            <constraint firstItem="QLu-Tk-1BY" firstAttribute="centerX" secondItem="Dry-dz-3kD" secondAttribute="centerX" id="OP5-iW-p9d"/>
                             <constraint firstItem="HcS-pd-nqk" firstAttribute="leading" secondItem="Dry-dz-3kD" secondAttribute="leading" constant="40" id="dnv-MH-NeZ"/>
                             <constraint firstAttribute="trailing" secondItem="HcS-pd-nqk" secondAttribute="trailing" constant="40" id="mRw-nP-BLE"/>
                             <constraint firstItem="HcS-pd-nqk" firstAttribute="top" secondItem="HHE-Tl-4CX" secondAttribute="bottom" constant="100" id="oXN-E5-g3J"/>
+                            <constraint firstItem="QLu-Tk-1BY" firstAttribute="centerY" secondItem="Dry-dz-3kD" secondAttribute="centerY" id="qqm-7I-AL6"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="QLu-Tk-1BY" id="AGD-Zk-f55"/>
                         <outlet property="emailText" destination="sTW-fb-NaS" id="FNv-sY-f0x"/>
                         <outlet property="passwordText" destination="do4-rF-1Ad" id="sWz-in-Snc"/>
                         <outlet property="singInstackView" destination="HcS-pd-nqk" id="9xh-x5-cx8"/>
@@ -381,16 +387,22 @@
                                     </view>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ffs-bU-DnO">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="xNq-Ri-Nj7" secondAttribute="trailing" id="1Qa-vA-OSE"/>
+                            <constraint firstItem="ffs-bU-DnO" firstAttribute="centerY" secondItem="v40-DS-goL" secondAttribute="centerY" id="771-v7-dPd"/>
+                            <constraint firstItem="ffs-bU-DnO" firstAttribute="centerX" secondItem="v40-DS-goL" secondAttribute="centerX" id="PaF-6N-TbI"/>
                             <constraint firstItem="raS-c7-6I6" firstAttribute="top" secondItem="xNq-Ri-Nj7" secondAttribute="bottom" constant="50" id="RDo-zQ-4iY"/>
                             <constraint firstItem="xNq-Ri-Nj7" firstAttribute="top" secondItem="zz5-4H-tGd" secondAttribute="bottom" constant="20" id="Uo5-lB-EOA"/>
                             <constraint firstItem="xNq-Ri-Nj7" firstAttribute="leading" secondItem="v40-DS-goL" secondAttribute="leading" id="cOu-4r-1B6"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="ffs-bU-DnO" id="9kS-2R-Pbs"/>
                         <outlet property="birthDateStackView" destination="xNq-Ri-Nj7" id="7Jp-4M-HGV"/>
                         <outlet property="birthdateButton" destination="nt5-Fo-Yf9" id="kP4-8N-6sk"/>
                         <outlet property="emailText" destination="eXZ-Je-q0D" id="p7Y-h0-Z2W"/>
