@@ -114,8 +114,14 @@ class FriendSearchViewController: UITableViewController{
         
         //Mark- finishing getting data from server
         
-        
     }
+    
+    
+
+    
+    
+    
+    
     
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
@@ -200,6 +206,13 @@ extension FriendSearchViewController: FriendSearchTableViewCellDelegate {
 extension FriendSearchViewController: UISearchBarDelegate{
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        
+        if !isConnectedToNetwork() {
+            showAlert(.connectivity)
+            return
+        }
+        
+        
         activityIndicator.startAnimating()
         activityIndicator.hidden = false
         let lowercaseSearchBarText = searchBar.text?.lowercaseString
