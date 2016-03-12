@@ -27,16 +27,42 @@ class StartChattingViewController: JSQMessagesViewController {
         collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero
         setupBubbles()
         
-        messages = fetchedAllMessage()
         
+        messages = fetchedAllMessage()
         if messages.count > 0 {
             for message in messages {
                 let jGSMessage = JSQMessage(senderId: message.senderId, senderDisplayName: "", date: message.date, text: message.messageText)
                 jGSMessages.append(jGSMessage)
             }
         }
+        
+        messages = fetchedAllMessage()
+        synchronizingMessage()
+        
     }
     
+    func synchronizingMessage() {
+    
+        FirebaseHelper.sharedInstance().observeMessages(senderId, to: friend!.username!, completionHandler: {
+            
+            //to not have duplicate message
+            for element in self.messages {
+                if element.messageId == ($0[FirebaseHelper.JSONKEY.MESSAGEID]) as? String {
+//                    self.startGettingFriendFromFirebase = false
+                    return
+                }
+            }
+            
+            //Creat message
+            let messageToBeAdd = Message(parameter: $0, context: self.sharedContext)
+            
+            CoreDataStackManager.sharedInstance().saveContext()
+            
+            let jGSMessage = JSQMessage(senderId: messageToBeAdd.senderId, senderDisplayName: "", date: messageToBeAdd.date, text: messageToBeAdd.messageText)
+            self.jGSMessages.append(jGSMessage)
+            self.finishSendingMessage()
+        })
+    }
 
 
     func fetchedAllMessage()  -> [Message] {
